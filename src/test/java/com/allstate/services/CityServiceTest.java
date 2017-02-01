@@ -43,7 +43,7 @@ public class CityServiceTest {
         city.setDay_rate(56);
         city.setNight_rate(100);
         City after = this.cityService.create(city);
-        assertEquals(2, after.getId());
+        assertEquals(3, after.getId());
         assertEquals("davangere", after.getName());
     }
 
@@ -73,7 +73,7 @@ public class CityServiceTest {
     public void shouldFindAllDriverInACity() throws Exception {
         City city = this.cityService.findById(1);
         List<Driver> driver = city.getDrivers();
-        assertEquals(1, driver.size());
+        assertEquals(4, driver.size());
     }
 
     @Test
@@ -81,6 +81,6 @@ public class CityServiceTest {
     public void shouldFindAllPassengerForACity() throws Exception {
         City city = this.cityService.findById(1);
         List<Passenger> passengers = city.getPassengers();
-        assertEquals(1, passengers.size());
+        assertEquals(4, passengers.size());
     }
 }

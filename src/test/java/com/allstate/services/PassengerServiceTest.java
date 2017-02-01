@@ -43,7 +43,7 @@ public class PassengerServiceTest {
         passenger.setGender(Gender.MALE);
         passenger.setCredit_balance(500);
         Passenger after = this.passengerService.create(passenger);
-        assertEquals(2, after.getId());
+        assertEquals(3, after.getId());
         assertEquals("vinit", after.getName());
     }
 
@@ -62,8 +62,8 @@ public class PassengerServiceTest {
     @Test
     @Transactional
     public void shouldDeleteById() throws Exception {
-        this.passengerService.deleteById(2);
-        Passenger passenger = this.passengerService.findById(2);
+        this.passengerService.deleteById(1);
+        Passenger passenger = this.passengerService.findById(1);
         assertNull(passenger);
     }
 
@@ -72,6 +72,6 @@ public class PassengerServiceTest {
     public void shouldGivenAPassengerToFindAllDriver() throws Exception {
         Passenger passenger = this.passengerService.findById(1);
         List<Driver> drivers = passenger.getDrivers();
-        assertEquals(1, drivers.size());
+        assertEquals(4, drivers.size());
     }
 }

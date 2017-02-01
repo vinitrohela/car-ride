@@ -52,7 +52,7 @@ public class TripServiceTest {
     @Test
     public void shouldCreateTrip() throws Exception {
         Trip result = this.tripService.create(trip);
-        assertEquals(2, result.getId());
+        assertEquals(3, result.getId());
         assertEquals(220, result.getTotal_cost());
     }
 

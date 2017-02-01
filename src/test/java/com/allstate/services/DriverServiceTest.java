@@ -40,12 +40,12 @@ public class DriverServiceTest {
     @Test
     public void shouldCreateDriver() throws Exception {
         Driver driver = new Driver();
-        driver.setName("sameer");
+        driver.setName("vinit");
         driver.setAge(24);
         driver.setGender(Gender.MALE);
         Driver after = this.driverService.create(driver);
-        assertEquals(2, after.getId());
-        assertEquals("sameer", after.getName());
+        assertEquals(3, after.getId());
+        assertEquals("vinit", after.getName());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class DriverServiceTest {
     @Test
     public void shouldNotFindByName() throws Exception {
         Driver driver = this.driverService.findByName("sameer");
-        assertNull(driver);
+        assertEquals(2, driver.getId());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class DriverServiceTest {
     public void shouldFindAllTheCityWhereADriverWorks() throws Exception {
         Driver driver = this.driverService.findById(1);
         List<City> city = driver.getCity();
-        assertEquals(1, city.size());
+        assertEquals(2, city.size());
     }
 
     @Test
@@ -101,12 +101,12 @@ public class DriverServiceTest {
     public void shouldFindAllTheTripByAParticularDriver() throws Exception {
         Driver driver = this.driverService.findById(1);
         List<Trip> trips = driver.getTrip();
-        assertEquals(1, trips.size());
+        assertEquals(8, trips.size());
     }
 
     @Test
     public void shouldAddDriverViolation() throws Exception {
-        Driver driver = this.driverService.findById(1);
+        Driver driver = this.driverService.findById(2);
         Driver result = this.driverService.addViolation(driver);
         assertEquals(1,result.getViolations());
         assertEquals(1,result.getVersion());

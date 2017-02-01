@@ -88,6 +88,6 @@ public class CarServiceTest {
     public void shouldFindAllTheTripACarHasBeenOn() throws Exception {
         Car car = this.carService.findById(1);
         List<Trip> trips = car.getTrip();
-        assertEquals(1, trips.size());
+        assertEquals(8, trips.size());
     }
 }

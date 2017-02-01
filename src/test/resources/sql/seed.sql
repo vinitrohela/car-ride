@@ -10,7 +10,7 @@ set FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO cities(name,state,day_rate,night_rate) VALUES
   ('bangalore','karnataka',50,75),
-  ('bangalore','knt',40,60);
+  ('blr','knt',40,60);
 
 INSERT INTO drivers(name,age,gender) VALUES
   ('rohit',24,'MALE'),
