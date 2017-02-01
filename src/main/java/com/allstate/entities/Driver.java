@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import sun.lwawt.macosx.CImage;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name="drivers")
-@Data
+
 public class Driver {
     private int id;
     private int version;
@@ -24,7 +25,9 @@ public class Driver {
     private Date created;
     private Date modified;
     private List<Car> cars;
-    private Trip trip;
+    private List<Trip> trip;
+    private List<City> city;
+    private Passenger passenger;
 
     public Driver() {
     }
@@ -103,12 +106,45 @@ public class Driver {
         this.modified = modified;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "driver")
+    @OneToMany(mappedBy = "driver")
+    @JsonIgnore
+    public List<Trip> getTrip() {
+        return trip;
+    }
+    public void setTrip(List<Trip> trip) {
+        this.trip = trip;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "trips",
+            joinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "driver_id", referencedColumnName = "id"))
+    @JsonIgnore
+    public List<City> getCity() {
+        return city;
+    }
+    public void setCity(List<City> city) {
+        this.city = city;
+    }
+
+    @OneToMany(mappedBy = "driver")
     @JsonIgnore
     public List<Car> getCars() {
         return cars;
     }
     public void setCars(List<Car> cars) {
         this.cars = cars;
+    }
+
+    @ManyToOne
+    @JoinTable(name = "trips",
+            joinColumns = @JoinColumn(name = "passenger_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "driver_id", referencedColumnName = "id"))
+    @JsonIgnore
+    public Passenger getPassenger() {
+        return passenger;
+    }
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 }

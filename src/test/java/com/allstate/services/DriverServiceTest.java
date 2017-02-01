@@ -1,7 +1,9 @@
 package com.allstate.services;
 
 import com.allstate.entities.Car;
+import com.allstate.entities.City;
 import com.allstate.entities.Driver;
+import com.allstate.entities.Trip;
 import com.allstate.enums.Gender;
 import org.junit.After;
 import org.junit.Before;
@@ -72,10 +74,42 @@ public class DriverServiceTest {
 
     @Test
     @Transactional
-    public void shouldFindAllCarsDrivenByDriver() throws Exception {
+    public void shouldDeleteById() throws Exception {
+        this.driverService.deleteById(2);
+        Driver driver = this.driverService.findById(2);
+        assertNull(driver);
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindAllTheCityWhereADriverWorks() throws Exception {
+        Driver driver = this.driverService.findById(1);
+        List<City> city = driver.getCity();
+        assertEquals(1, city.size());
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindAllTheCarsADriverOwn() throws Exception {
         Driver driver = this.driverService.findById(1);
         List<Car> cars = driver.getCars();
-        assertEquals(1, cars.size());
+        assertEquals(2,cars.size());
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindAllTheTripByAParticularDriver() throws Exception {
+        Driver driver = this.driverService.findById(1);
+        List<Trip> trips = driver.getTrip();
+        assertEquals(1, trips.size());
+    }
+
+    @Test
+    public void shouldAddDriverViolation() throws Exception {
+        Driver driver = this.driverService.findById(1);
+        Driver result = this.driverService.addViolation(driver);
+        assertEquals(1,result.getViolations());
+        assertEquals(1,result.getVersion());
     }
 
 }

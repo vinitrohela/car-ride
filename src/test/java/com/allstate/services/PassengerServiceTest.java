@@ -1,5 +1,6 @@
 package com.allstate.services;
 
+import com.allstate.entities.Driver;
 import com.allstate.entities.Passenger;
 import com.allstate.enums.Gender;
 import org.junit.After;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -53,5 +57,21 @@ public class PassengerServiceTest {
     public void shouldFindByName() throws Exception {
         Passenger p1 = this.passengerService.findByName("vinit");
         assertEquals(1, p1.getId());
+    }
+
+    @Test
+    @Transactional
+    public void shouldDeleteById() throws Exception {
+        this.passengerService.deleteById(2);
+        Passenger passenger = this.passengerService.findById(2);
+        assertNull(passenger);
+    }
+
+    @Test
+    @Transactional
+    public void shouldGivenAPassengerToFindAllDriver() throws Exception {
+        Passenger passenger = this.passengerService.findById(1);
+        List<Driver> drivers = passenger.getDrivers();
+        assertEquals(1, drivers.size());
     }
 }

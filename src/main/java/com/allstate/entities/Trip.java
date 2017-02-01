@@ -1,7 +1,5 @@
 package com.allstate.entities;
 
-import com.allstate.enums.DayTime;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,33 +8,31 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "trip")
+@Table(name = "trips")
 public class Trip {
     private int id;
     private int version;
-    private DayTime time;
-    private Double distance;
-    private Double cost;
+    private Date start_time;
+    private Date end_time;
+    private int cost;
     private int tip;
-    private Double total_cost;
+    private int total_cost;
     private Car car;
+    private int kms_driven;
     private City city;
     private Passenger passenger;
+    private Driver driver;
     private Date created;
     private Date modified;
 
     public Trip() {
     }
 
-    public Trip(DayTime time, Double distance, Double cost, int tip, Double total_cost, Car car, City city, Passenger passenger) {
-        this.time = time;
-        this.distance = distance;
-        this.cost = cost;
-        this.tip = tip;
-        this.total_cost = total_cost;
+    public Trip(Car car, City city, Passenger passenger, Driver driver) {
         this.car = car;
         this.city = city;
         this.passenger = passenger;
+        this.driver = driver;
     }
 
     @Id
@@ -57,28 +53,10 @@ public class Trip {
     }
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('DAY','NIGHT')")
-    public DayTime getTime() {
-        return time;
-    }
-    public void setTime(DayTime time) {
-        this.time = time;
-    }
-
-    @NotNull
-    public Double getDistance() {
-        return distance;
-    }
-    public void setDistance(Double distance) {
-        this.distance = distance;
-    }
-
-    @NotNull
-    public Double getCost() {
+    public int getCost() {
         return cost;
     }
-    public void setCost(Double cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
@@ -91,15 +69,15 @@ public class Trip {
     }
 
     @NotNull
-    public Double getTotal_cost() {
+    public int getTotal_cost() {
         return total_cost;
     }
-    public void setTotal_cost(Double total_cost) {
+    public void setTotal_cost(int total_cost) {
         this.total_cost = total_cost;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "trip")
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="car_id")
     public Car getCar() {
         return car;
     }
@@ -107,8 +85,8 @@ public class Trip {
         this.car = car;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trip")
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="city_id")
     public City getCity() {
         return city;
     }
@@ -116,14 +94,22 @@ public class Trip {
         this.city = city;
     }
 
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "trip")
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="passenger_id")
     public Passenger getPassenger() {
         return passenger;
     }
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="driver_id")
+    public Driver getDriver() {
+        return driver;
+    }
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     @CreationTimestamp
@@ -140,5 +126,29 @@ public class Trip {
     }
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    @NotNull
+    public int getKms_driven() {
+        return kms_driven;
+    }
+    public void setKms_driven(int kms_driven) {
+        this.kms_driven = kms_driven;
+    }
+
+    @CreationTimestamp
+    public Date getStart_time() {
+        return start_time;
+    }
+    public void setStart_time(Date start_time) {
+        this.start_time = start_time;
+    }
+
+    @UpdateTimestamp
+    public Date getEnd_time() {
+        return end_time;
+    }
+    public void setEnd_time(Date end_time) {
+        this.end_time = end_time;
     }
 }

@@ -25,4 +25,8 @@ public class CarService {
     public Car findByMake(String name){
         return this.carRepository.findByMake(name);
     }
+
+    public void deleteById(int id) {
+            this.carRepository.delete(id);
+    }
 }

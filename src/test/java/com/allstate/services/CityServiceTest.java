@@ -1,6 +1,8 @@
 package com.allstate.services;
 
 import com.allstate.entities.City;
+import com.allstate.entities.Driver;
+import com.allstate.entities.Passenger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -53,5 +58,29 @@ public class CityServiceTest {
         City c1 = this.cityService.findByName("bangalore");
         assertEquals("karnataka",c1.getState());
 
+    }
+
+    @Test
+    @Transactional
+    public void shouldDeleteById() throws Exception {
+        this.cityService.deleteById(2);
+        City city = this.cityService.findById(2);
+        assertNull(city);
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindAllDriverInACity() throws Exception {
+        City city = this.cityService.findById(1);
+        List<Driver> driver = city.getDrivers();
+        assertEquals(1, driver.size());
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindAllPassengerForACity() throws Exception {
+        City city = this.cityService.findById(1);
+        List<Passenger> passengers = city.getPassengers();
+        assertEquals(1, passengers.size());
     }
 }

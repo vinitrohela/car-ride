@@ -25,4 +25,8 @@ public class PassengerService {
     public Passenger findByName(String name){
         return this.passengerRepository.findByName(name);
     }
+
+    public void deleteById(int id){
+        this.passengerRepository.delete(id);
+    }
 }

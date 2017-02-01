@@ -29,4 +29,13 @@ public class DriverService {
     public Driver findByName(String name){
         return  this.driverRepository.findByName(name);
     }
+
+    public void deleteById(int id){
+        this.driverRepository.delete(id);
+    }
+
+    public Driver addViolation(Driver driver){
+        driver.setViolations(driver.getViolations() + 1);
+        return this.driverRepository.save(driver);
+    }
 }

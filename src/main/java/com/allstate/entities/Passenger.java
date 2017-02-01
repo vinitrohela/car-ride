@@ -1,12 +1,14 @@
 package com.allstate.entities;
 
 import com.allstate.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name= "passengers")
@@ -19,7 +21,9 @@ public class Passenger {
     private int credit_balance;
     private Date created;
     private Date modified;
-    private Trip trip;
+    private List<Trip> trip;
+    private City city;
+    private List<Driver> drivers;
 
     public Passenger() {
     }
@@ -98,12 +102,33 @@ public class Passenger {
         this.modified = modified;
     }
 
-    @OneToOne
-    @JoinColumn(name = "passenger_id")
-    public Trip getTrip() {
+    @OneToMany(mappedBy = "passenger")
+    @JsonIgnore
+    public List<Trip> getTrip() {
         return trip;
     }
-    public void setTrip(Trip trip) {
+    public void setTrip(List<Trip> trip) {
         this.trip = trip;
+    }
+
+    @ManyToOne
+    @JoinTable(name = "trips",
+            joinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "passenger_id", referencedColumnName = "id"))
+    @JsonIgnore
+    public City getCity() {
+        return city;
+    }
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    @OneToMany(mappedBy = "passenger")
+    @JsonIgnore
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
     }
 }

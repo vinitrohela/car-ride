@@ -1,6 +1,7 @@
 package com.allstate.entities;
 
 import com.allstate.enums.CarType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.internal.Nullable;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
@@ -23,7 +25,7 @@ public class Car {
     private Date created;
     private Date modified;
     private Driver driver;
-    private Trip trip;
+    private List<Trip> trip;
 
     public Car() {
     }
@@ -111,12 +113,12 @@ public class Car {
         this.driver = driver;
     }
 
-    @OneToOne
-    @JoinColumn(name = "car_id")
-    public Trip getTrip() {
+    @OneToMany(mappedBy = "car")
+    @JsonIgnore
+    public List<Trip> getTrip() {
         return trip;
     }
-    public void setTrip(Trip trip) {
+    public void setTrip(List<Trip> trip) {
         this.trip = trip;
     }
 }
