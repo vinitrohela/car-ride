@@ -92,9 +92,16 @@ public class TripServiceTest {
     @Test
     public void shouldFindShortestTrip() throws Exception {
         Trip trip = this.tripService.findById(1);
-        Trip result = this.tripService.create(trip);
         Passenger passenger =trip.getPassenger();
         int shortTrip = this.tripService.findShortestTrip(passenger.getId());
         assertEquals(10, shortTrip);
+    }
+
+    @Test
+    public void shouldLongestTrip() throws Exception {
+        Trip trip = this.tripService.findById(1);
+        Passenger passenger =trip.getPassenger();
+        int LongTrip = this.tripService.findLongestTrip(passenger.getId());
+        assertEquals(20, LongTrip);
     }
 }

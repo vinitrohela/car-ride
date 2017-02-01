@@ -43,7 +43,11 @@ public class TripService {
         return this.tripRepository.findOne(id);
     }
 
-    public int findShortestTrip(int id) {
-        return this.tripRepository.findShortestTrip(id);
+    public int findShortestTrip(int passenger_id){
+        return this.tripRepository.findShortestTrip(passenger_id);
+    }
+
+    public int findLongestTrip(int passenger_id){
+        return this.tripRepository.findLongestTrip(passenger_id);
     }
 }
